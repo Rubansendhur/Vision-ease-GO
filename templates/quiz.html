@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Blindness Quiz</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .quiz-box { margin: 10px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        .question { font-weight: bold; }
+        .result { margin-top: 10px; color: green; }
+        #score { font-weight: bold; margin-top: 20px; }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,71 +28,84 @@
         </header>
         <main>
             <section class="quiz-section">
-                <h2>Test Your Knowledge</h2>
-                <form id="quizForm">
-                    <div class="question">
-                        <h3>Question 1</h3>
-                        <p>What is the most common type of color blindness?</p>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="q1" value="protanopia" required>
-                                Protanopia
-                            </label>
-                            <label>
-                                <input type="radio" name="q1" value="deuteranopia">
-                                Deuteranopia
-                            </label>
-                            <label>
-                                <input type="radio" name="q1" value="tritanopia">
-                                Tritanopia
-                            </label>
-                        </div>
-                    </div>
-                    <div class="question">
-                        <h3>Question 2</h3>
-                        <p>Which gender is more likely to be color blind?</p>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="q2" value="male" required>
-                                Male
-                            </label>
-                            <label>
-                                <input type="radio" name="q2" value="female">
-                                Female
-                            </label>
-                            <label>
-                                <input type="radio" name="q2" value="equal">
-                                Equal chance
-                            </label>
-                        </div>
-                    </div>
-                    <div class="question">
-                        <h3>Question 3</h3>
-                        <p>What is daltonization?</p>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="q3" value="correction" required>
-                                A method to correct color blindness
-                            </label>
-                            <label>
-                                <input type="radio" name="q3" value="simulation">
-                                A method to simulate color blindness
-                            </label>
-                            <label>
-                                <input type="radio" name="q3" value="test">
-                                A test for color blindness
-                            </label>
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-button">Submit Answers</button>
-                </form>
-                <div id="quizResults" class="results"></div>
+                <div class="level-selector">
+                    <h2>Select Quiz Level</h2>
+                    <select id="levelSelect">
+                        <option value="1">Level 1 (Easy)</option>
+                        <option value="2">Level 2 (Medium)</option>
+                        <option value="3">Level 3 (Hard)</option>
+                    </select>
+                    <button onclick="loadQuiz()" class="start-button">Load Quiz</button>
+                </div>
+                <div id="quizContainer"></div>
+                <div id="score"></div>
             </section>
         </main>
         <footer>
             <p>&copy; 2024 Color Blind Simulator. All rights reserved.</p>
         </footer>
     </div>
-    <script src="/static/scripts.js"></script>
+
+    <script>
+        let correctAnswers = 0; // Track correct answers
+
+        async function loadQuiz() {
+            const level = document.getElementById("levelSelect").value;
+            try {
+                const res = await fetch(`/api/quizzes?level=${level}`);
+                const quizzes = await res.json();
+
+                const container = document.getElementById("quizContainer");
+                const scoreElement = document.getElementById("score");
+
+                container.innerHTML = "";
+                scoreElement.innerHTML = ""; // Reset the score when difficulty changes
+
+                correctAnswers = 0; // Reset score for each quiz
+
+                quizzes.forEach((q, i) => {
+                    const div = document.createElement("div");
+                    div.className = "quiz-box";
+
+                    const optionsHtml = q.options.map(option =>
+                        `<label><input type="radio" name="q${i}" value="${option}" onchange="checkAnswer(this, '${q.answer}', ${i})"/> ${option}</label><br>`
+                    ).join("");
+
+                    div.innerHTML = `
+                        <div class="question">${i + 1}. ${q.question}</div>
+                        ${optionsHtml}
+                        <div id="result${i}" class="result"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Error loading quiz:', error);
+                document.getElementById("quizContainer").innerHTML = `<p class="error">Error loading quiz: ${error.message}</p>`;
+            }
+        }
+
+        function checkAnswer(input, correctAnswer, index) {
+            const resultEl = document.getElementById(`result${index}`);
+            if (input.value === correctAnswer) {
+                resultEl.textContent = "✅ Correct!";
+                resultEl.style.color = "green";
+                correctAnswers++; // Increment score when correct
+            } else {
+                resultEl.textContent = "❌ Incorrect!";
+                resultEl.style.color = "red";
+            }
+            
+            // Display total score after answering the last question
+            if (index === document.getElementsByClassName("quiz-box").length - 1) {
+                displayScore();
+            }
+        }
+
+        function displayScore() {
+            const totalQuestions = document.getElementsByClassName("quiz-box").length;
+            const scoreElement = document.getElementById("score");
+            scoreElement.textContent = `Total Score: ${correctAnswers} / ${totalQuestions}`;
+        }
+    </script>
 </body>
 </html>

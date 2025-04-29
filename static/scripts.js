@@ -1,38 +1,121 @@
 // Quiz functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const quizForm = document.getElementById('quizForm');
-    if (quizForm) {
-        quizForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const answers = {
-                q1: document.querySelector('input[name="q1"]:checked')?.value,
-                q2: document.querySelector('input[name="q2"]:checked')?.value,
-                q3: document.querySelector('input[name="q3"]:checked')?.value
-            };
+    // Quiz functionality
+    const quizLevel = document.getElementById('quizLevel');
+    const startQuizButton = document.getElementById('startQuiz');
+    const quizContainer = document.getElementById('quizContainer');
+    const quizContent = document.getElementById('quizContent');
+    const quizResults = document.getElementById('quizResults');
+    let currentQuizzes = [];
 
-            const correctAnswers = {
-                q1: 'protanopia',
-                q2: 'male',
-                q3: 'correction'
-            };
+    startQuizButton.addEventListener('click', function() {
+        const level = quizLevel.value;
+        loadQuizzes(level);
+    });
 
-            let score = 0;
-            let feedback = '';
-
-            for (const [question, answer] of Object.entries(answers)) {
-                if (answer === correctAnswers[question]) {
-                    score++;
+    function loadQuizzes(level) {
+        fetch(`/api/quizzes?level=${level}`)
+            .then(response => response.json())
+            .then(quizzes => {
+                if (quizzes.message) {
+                    // No quizzes found
+                    quizContent.innerHTML = `<p class="error">${quizzes.message}</p>`;
+                    return;
                 }
-            }
 
-            const resultsDiv = document.getElementById('quizResults');
-            resultsDiv.innerHTML = `
-                <h3>Quiz Results</h3>
-                <p>You scored ${score} out of 3!</p>
-                <p>${score === 3 ? 'Perfect! You know your stuff!' : 'Keep learning about color blindness!'}</p>
-            `;
+                currentQuizzes = quizzes;
+                displayQuizzes(quizzes);
+                quizContainer.classList.remove('hidden');
+            })
+            .catch(error => {
+                quizContent.innerHTML = `<p class="error">Error loading quizzes: ${error.message}</p>`;
+            });
+    }
+
+    function displayQuizzes(quizzes) {
+        const quizHTML = quizzes.map((quiz, index) => `
+            <div class="question" data-quiz-id="${quiz.ID}">
+                <h3>Question ${index + 1}</h3>
+                <p>${quiz.Question}</p>
+                <div class="options">
+                    ${quiz.Options.map(option => `
+                        <label>
+                            <input type="radio" name="q${index}" value="${option}" required>
+                            ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        quizContent.innerHTML = `
+            <form id="quizForm">
+                ${quizHTML}
+                <button type="submit" class="submit-button">Submit Answers</button>
+            </form>
+        `;
+
+        // Add form submit handler
+        document.getElementById('quizForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            checkAnswers(quizzes);
         });
+    }
+
+    function checkAnswers(quizzes) {
+        let score = 0;
+        const results = [];
+
+        quizzes.forEach((quiz, index) => {
+            const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`)?.value;
+            const isCorrect = selectedAnswer === quiz.Answer;
+            if (isCorrect) score++;
+
+            results.push({
+                question: quiz.Question,
+                selectedAnswer: selectedAnswer,
+                correctAnswer: quiz.Answer,
+                explanation: quiz.Explanation,
+                isCorrect: isCorrect
+            });
+        });
+
+        displayResults(score, quizzes.length, results);
+    }
+
+    function displayResults(score, total, results) {
+        const percentage = (score / total) * 100;
+        let message = '';
+        if (percentage === 100) {
+            message = 'Perfect! You know your stuff!';
+        } else if (percentage >= 70) {
+            message = 'Great job! You have a good understanding of color blindness.';
+        } else if (percentage >= 40) {
+            message = 'Not bad! Keep learning about color blindness.';
+        } else {
+            message = 'Keep studying! There\'s more to learn about color blindness.';
+        }
+
+        const resultsHTML = results.map(result => `
+            <div class="result-item ${result.isCorrect ? 'correct' : 'incorrect'}">
+                <h4>${result.question}</h4>
+                <p>Your answer: ${result.selectedAnswer || 'Not answered'}</p>
+                <p>Correct answer: ${result.correctAnswer}</p>
+                <p class="explanation">${result.explanation}</p>
+            </div>
+        `).join('');
+
+        quizResults.innerHTML = `
+            <h3>Quiz Results</h3>
+            <p>You scored ${score} out of ${total} (${percentage.toFixed(1)}%)</p>
+            <p>${message}</p>
+            <div class="detailed-results">
+                ${resultsHTML}
+            </div>
+            <button class="retry-button" onclick="location.reload()">Try Another Level</button>
+        `;
+
+        quizResults.classList.remove('hidden');
     }
 
     // Image upload and processing functionality

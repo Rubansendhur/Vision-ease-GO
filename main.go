@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -12,10 +13,15 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"color-blind-simulator-1/app/models"
 	"color-blind-simulator-1/app/server"
 	"color-blind-simulator-1/app/utils"
 
 	"github.com/disintegration/imaging"
+	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const (
@@ -27,6 +33,22 @@ const (
 type ImageProcessingRequest struct {
 	Operation string  `json:"operation"`
 	Angle     float64 `json:"angle,omitempty"`
+}
+
+type Quiz struct {
+	Level       int      `json:"level"`
+	Question    string   `json:"question"`
+	Options     []string `json:"options"`
+	Answer      string   `json:"answer"`
+	Explanation string   `json:"explanation"`
+}
+
+// InitializeMongoDB sets up the MongoDB connection
+func initializeMongoDB() error {
+	if err := models.InitializeMongoDB(); err != nil {
+		return fmt.Errorf("failed to initialize MongoDB: %v", err)
+	}
+	return nil
 }
 
 // Add this function to clean up old images
@@ -180,6 +202,36 @@ func visualizeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// Load environment variables
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// MongoDB URI from environment variable
+	mongoURI := os.Getenv("MONGO_URI")
+	clientOptions := options.Client().ApplyURI(mongoURI)
+
+	// Connect to MongoDB
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// MongoDB collection
+	collection := client.Database("gopro").Collection("quizzes")
+
+	// Initialize MongoDB
+	if err := initializeMongoDB(); err != nil {
+		log.Fatalf("Failed to initialize MongoDB: %v", err)
+	}
+	defer models.CloseMongoDB()
+
+	// Insert sample quizzes
+	if err := models.InsertSampleQuizzes(); err != nil {
+		log.Printf("Warning: Failed to insert sample quizzes: %v", err)
+	}
+
 	if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
 		log.Fatalf("Failed to create output directory: %v", err)
 	}
@@ -205,6 +257,62 @@ func main() {
 		renderTemplate(w, "quiz", nil)
 	})
 	http.HandleFunc("/visualize", visualizeHandler)
+
+	// API endpoint to get quizzes by level
+	http.HandleFunc("/api/quizzes", func(w http.ResponseWriter, r *http.Request) {
+		// Get the level parameter from the URL query
+		levelParam := r.URL.Query().Get("level")
+		if levelParam == "" {
+			http.Error(w, "Missing level parameter", http.StatusBadRequest)
+			return
+		}
+
+		// Convert level parameter to integer
+		level, err := strconv.Atoi(levelParam)
+		if err != nil {
+			http.Error(w, "Invalid level parameter", http.StatusBadRequest)
+			return
+		}
+
+		// Query the database for quizzes at the specified level
+		filter := bson.M{"level": level}
+		cursor, err := collection.Find(context.TODO(), filter)
+		if err != nil {
+			http.Error(w, "Error querying database", http.StatusInternalServerError)
+			return
+		}
+		defer cursor.Close(context.TODO())
+
+		// Store the quizzes in a slice
+		var quizzes []Quiz
+		for cursor.Next(context.TODO()) {
+			var quiz Quiz
+			if err := cursor.Decode(&quiz); err != nil {
+				log.Println("Error decoding quiz:", err)
+				continue
+			}
+			quizzes = append(quizzes, quiz)
+		}
+
+		// Check if we encountered any error during iteration
+		if err := cursor.Err(); err != nil {
+			http.Error(w, "Error iterating cursor", http.StatusInternalServerError)
+			return
+		}
+
+		// Return quizzes as JSON response
+		w.Header().Set("Content-Type", "application/json")
+		if len(quizzes) == 0 {
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(map[string]string{
+				"message": "No quizzes found for the specified level",
+			})
+			return
+		}
+
+		// Return the quizzes as a JSON response
+		json.NewEncoder(w).Encode(quizzes)
+	})
 
 	fmt.Printf("🚀 Server started at http://localhost%s\n", port)
 	log.Fatal(http.ListenAndServe(port, nil))
