@@ -1,0 +1,170 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #eef3f8;
+  color: #333;
+}
+
+header {
+  background: #0077cc;
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+nav {
+  margin-top: 0.5rem;
+}
+
+nav a {
+  margin: 0 1rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #e3e3e3;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+form {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.file-input label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+input[type="file"],
+select,
+input[type="range"] {
+  padding: 0.6rem;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.upload-button {
+  background-color: #0077cc;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.3s;
+  margin-top: 1rem;
+}
+
+.upload-button:hover {
+  background-color: #005fa3;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.option-group h4 {
+  margin-bottom: 0.5rem;
+  color: #0077cc;
+  font-size: 1.1rem;
+}
+
+.results-section {
+  margin-top: 2rem;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #0077cc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+#angleValue {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .upload-button {
+    width: 100%;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #0077cc;
+  color: white;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
