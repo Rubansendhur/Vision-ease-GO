@@ -1,95 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualize Color Blindness</title>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Visualize Color Blindness</h1>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/learn">Learn</a></li>
-                    <li><a href="/quiz">Quiz</a></li>
-                    <li><a href="/visualize">Visualize</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <section class="upload-section">
-                <h2>Upload an Image</h2>
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <div class="file-input">
-                        <input type="file" name="image" id="imageInput" accept="image/*" required>
-                        <label for="imageInput">Choose an image</label>
-                    </div>
-                    <div id="imagePreview" class="image-preview hidden">
-                        <h3>Image Preview</h3>
-                        <img id="previewImage" src="" alt="Preview">
-                    </div>
-                    <div class="processing-options">
-                        <h3>Processing Options</h3>
-                        <div class="options-grid">
-                            <div class="option-group">
-                                <h4>Color Blindness</h4>
-                                <select name="colorBlindness" id="colorBlindness">
-                                    <option value="none">None</option>
-                                    <option value="protanopia">Protanopia</option>
-                                    <option value="deuteranopia">Deuteranopia</option>
-                                    <option value="tritanopia">Tritanopia</option>
-                                    <option value="protanomaly">Protanomaly</option>
-                                    <option value="deuteranomaly">Deuteranomaly</option>
-                                    <option value="tritanomaly">Tritanomaly</option>
-                                    <option value="achromatopsia">Achromatopsia</option>
-                                    <option value="monochromacy">Monochromacy</option>
-                                    <option value="daltonize">Daltonize</option>
-                                </select>
-                            </div>
-                            <div class="option-group">
-                                <h4>Image Transformations</h4>
-                                <select name="transformation" id="transformation">
-                                    <option value="none">None</option>
-                                    <option value="flip">Flip Upside Down</option>
-                                    <option value="rotate">Rotate</option>
-                                    <option value="rotate_shear">Rotate (Shear)</option>
-                                    <option value="grayscale">Grayscale</option>
-                                </select>
-                                <div id="rotationOptions" class="hidden">
-                                    <label for="angle">Rotation Angle:</label>
-                                    <input type="range" id="angle" name="angle" min="0" max="360" value="0">
-                                    <span id="angleValue">0°</span>
-                                </div>
-                            </div>
-                            <div class="option-group">
-                                <h4>Filters</h4>
-                                <select name="filter" id="filter">
-                                    <option value="none">None</option>
-                                    <option value="box_blur">Box Blur</option>
-                                    <option value="gaussian_blur">Gaussian Blur</option>
-                                    <option value="edge_detection">Edge Detection</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="upload-button">Process Image</button>
-                </form>
-            </section>
-            <div id="loadingIndicator" class="loading-indicator hidden">
-                <div class="spinner"></div>
-                <p>Processing image...</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>VisionSimLab – Visualize Color Blindness</title>
+        <link rel="stylesheet" href="/static/visualize.css" />
+      </head>
+      <header>
+        <h1>VisionSimLab</h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/learn">Learn</a>
+          <a href="/quiz">Quiz</a>
+          <a href="/visualize">Visualize</a>
+        </nav>
+      </header>
+  <main>
+    <section class="upload-section">
+      <h2>Upload an Image</h2>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="file-input">
+          <label for="imageInput">Choose an image:</label>
+          <input type="file" name="image" id="imageInput" accept="image/*" required>
+        </div>
+
+        <div id="imagePreview" class="image-preview hidden">
+          <h3>Image Preview</h3>
+          <img id="previewImage" src="" alt="Preview">
+        </div>
+
+        <div class="processing-options">
+          <h3>Processing Options</h3>
+          <div class="options-grid">
+            <div class="option-group">
+              <h4>Color Blindness</h4>
+              <select name="colorBlindness" id="colorBlindness">
+                <option value="none">None</option>
+                <option value="protanopia">Protanopia</option>
+                <option value="deuteranopia">Deuteranopia</option>
+                <option value="tritanopia">Tritanopia</option>
+                <option value="protanomaly">Protanomaly</option>
+                <option value="deuteranomaly">Deuteranomaly</option>
+                <option value="tritanomaly">Tritanomaly</option>
+                <option value="achromatopsia">Achromatopsia</option>
+                <option value="monochromacy">Monochromacy</option>
+                <option value="daltonize">Daltonize</option>
+              </select>
             </div>
-            <section class="results-section" id="results">
-                <!-- Results will be displayed here -->
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2024 Color Blind Simulator. All rights reserved.</p>
-        </footer>
+
+            <div class="option-group">
+              <h4>Image Transformations</h4>
+              <select name="transformation" id="transformation">
+                <option value="none">None</option>
+                <option value="flip">Flip Upside Down</option>
+                <option value="rotate">Rotate</option>
+                <option value="rotate_shear">Rotate (Shear)</option>
+                <option value="grayscale">Grayscale</option>
+              </select>
+
+              <div id="rotationOptions" class="hidden">
+                <label for="angle">Rotation Angle:</label>
+                <input type="range" id="angle" name="angle" min="0" max="360" value="0">
+                <span id="angleValue">0°</span>
+              </div>
+            </div>
+
+            <div class="option-group">
+              <h4>Filters</h4>
+              <select name="filter" id="filter">
+                <option value="none">None</option>
+                <option value="box_blur">Box Blur</option>
+                <option value="gaussian_blur">Gaussian Blur</option>
+                <option value="edge_detection">Edge Detection</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="upload-button">Process Image</button>
+      </form>
+    </section>
+
+    <div id="loadingIndicator" class="loading-indicator hidden">
+      <div class="spinner"></div>
+      <p>Processing image...</p>
     </div>
-    <script src="/static/scripts.js"></script>
+
+    <section class="results-section" id="results">
+      <!-- Processed image results will appear here -->
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 VisionSimLab. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/scripts.js"></script>
 </body>
 </html>

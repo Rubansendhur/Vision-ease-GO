@@ -1,54 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn About Color Blindness</title>
-    <link rel="stylesheet" href="/static/styles.css">
+  <meta charset="UTF-8">
+  <title>Learn About Color Blindness</title>
+  <link rel="stylesheet" href="/static/styles.css"> <!-- your existing CSS -->
+  
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Learn About Color Blindness</h1>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/learn">Learn</a></li>
-                    <li><a href="/quiz">Quiz</a></li>
-                    <li><a href="/visualize">Visualize</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <section class="intro">
-                <h2>Understanding Color Blindness</h2>
-                <p>Color blindness, or color vision deficiency, is the decreased ability to see color or differences in color. It can impair tasks such as selecting ripe fruit, choosing clothing, and reading traffic lights.</p>
-            </section>
-            <section class="types">
-                <h2>Types of Color Blindness</h2>
-                <div class="type-grid">
-                    <div class="type-card">
-                        <h3>Protanopia</h3>
-                        <p>Difficulty distinguishing between red and green colors. This is the most common type of color blindness.</p>
-                    </div>
-                    <div class="type-card">
-                        <h3>Deuteranopia</h3>
-                        <p>Similar to protanopia, but affects the green cones. People with deuteranopia have difficulty distinguishing between red and green colors.</p>
-                    </div>
-                    <div class="type-card">
-                        <h3>Tritanopia</h3>
-                        <p>Difficulty distinguishing between blue and yellow colors. This is a rare form of color blindness.</p>
-                    </div>
-                </div>
-            </section>
-            <section class="causes">
-                <h2>Causes and Prevalence</h2>
-                <p>Color blindness is usually inherited and is more common in men than in women. It affects approximately 1 in 12 men and 1 in 200 women.</p>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2024 Color Blind Simulator. All rights reserved.</p>
-        </footer>
-    </div>
+
+<header>
+  <h1>VisionSimLab</h1>
+  <nav>
+    <a href="/">Home</a> |
+    <a href="/learn">Learn</a> |
+    <a href="/quiz">Quiz</a> |
+    <a href="/visualize">Visualize</a>
+  </nav>
+</header>
+
+<main>
+  <section class="toc">
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#what-is">What is Color Blindness?</a></li>
+      <li><a href="#causes">Causes of Color Blindness</a></li>
+      <li><a href="#inheritance">Inheritance of Color Blindness</a></li>
+      <li><a href="#protanopia">Protanopia</a></li>
+      <li><a href="#deuteranopia">Deuteranopia</a></li>
+      <li><a href="#tritanopia">Tritanopia</a></li>
+      <li><a href="#protanomaly">Protanomaly</a></li>
+      <li><a href="#deuteranomaly">Deuteranomaly</a></li>
+      <li><a href="#tritanomaly">Tritanomaly</a></li>
+      <li><a href="#achromatopsia">Achromatopsia</a></li>
+      <li><a href="#monochromacy">Monochromacy</a></li>
+      <li><a href="#daltonized">Daltonization</a></li>
+    </ul>
+  </section>
+
+  <section id="what-is">
+    <h2>What is Color Blindness?</h2>
+    <p>Color blindness, or color vision deficiency (CVD), is the inability to perceive differences between some of the colors that others can distinguish. It occurs when one or more of the cone types (responsible for color vision) in the retina are absent or malfunctioning.</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/1e4eJaU8H98" frameborder="0" allowfullscreen></iframe>
+  </section>
+
+  <section id="causes">
+    <h2>Causes of Color Blindness</h2>
+    <ul>
+      <li>Genetic inheritance (most common)</li>
+      <li>Eye diseases like glaucoma or macular degeneration</li>
+      <li>Injury or trauma to the eye</li>
+      <li>Side effects of certain medications</li>
+      <li>Age-related decline in color vision</li>
+    </ul>
+  </section>
+
+  <section id="inheritance">
+    <h2>Inheritance of Color Blindness</h2>
+    <p>Most color vision deficiencies are inherited and linked to the X chromosome. As males have only one X chromosome, they are more likely to be colorblind. Females must inherit two defective X chromosomes to be affected.</p>
+    <p>If a mother is a carrier, there is a 50% chance her son will be colorblind.</p>
+  </section>
+
+  <!-- Each type begins here -->
+
+  <section id="protanopia">
+    <h2>Protanopia (Red-Blindness)</h2>
+
+    <h3>Causes</h3>
+    <p>Caused by the complete absence of red cone cells (L-cones).</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Cannot perceive red light.</li>
+      <li>Difficulty distinguishing between red, orange, yellow, and green.</li>
+      <li>Red colors appear dark or black.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Severely affects red-green color perception, reducing brightness perception for reds.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Trouble with traffic lights and warning signs.</li>
+      <li>Difficulty interpreting color-coded maps and charts.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Color-corrective glasses (e.g., EnChroma glasses).</li>
+      <li>Mobile apps to help differentiate colors.</li>
+    </ul>
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/V5xY7G4ddrQ" frameborder="0" allowfullscreen></iframe>
+  </section>
+
+  <section id="deuteranopia">
+    <h2>Deuteranopia (Green-Blindness)</h2>
+
+    <h3>Causes</h3>
+    <p>Caused by the absence of green cone cells (M-cones).</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Inability to perceive green hues.</li>
+      <li>Difficulty differentiating reds, greens, browns, and oranges.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Red-green color discrimination is poor, leading to frequent confusion between similar colors.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Difficulty reading colored graphs and signs.</li>
+      <li>Misidentification of ripe fruits or plants.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Assistive glasses and digital filters to enhance color differences.</li>
+    </ul>
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/Yxy4mPHeX6c" frameborder="0" allowfullscreen></iframe>
+  </section>
+
+  <section id="tritanopia">
+    <h2>Tritanopia (Blue-Yellow Blindness)</h2>
+
+    <h3>Causes</h3>
+    <p>Results from the absence of blue cone cells (S-cones).</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Difficulty distinguishing between blue and green, and between yellow and red.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Confusion mainly between blue and green shades; purple may appear red.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Difficulty identifying blue skies and oceans accurately.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Limited corrective solutions due to rarity.</li>
+    </ul>
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/wy3Zd4fP8DA" frameborder="0" allowfullscreen></iframe>
+  </section>
+
+  <section id="protanomaly">
+    <h2>Protanomaly (Red-Weakness)</h2>
+
+    <h3>Causes</h3>
+    <p>Red cone cells are present but function abnormally.</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Reduced sensitivity to red light.</li>
+      <li>Reds appear more greenish or faded.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Difficulty distinguishing certain shades of red, orange, and yellow.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Mistaking ripe fruits like tomatoes.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Color-enhancing lenses may help improve contrast.</li>
+    </ul>
+  </section>
+
+  <section id="deuteranomaly">
+    <h2>Deuteranomaly (Green-Weakness)</h2>
+
+    <h3>Causes</h3>
+    <p>Green cone cells function incorrectly.</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Difficulty differentiating green from red or yellow hues.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Most common form of color blindness.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Difficulty in traffic signal recognition.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Color vision glasses to enhance perception.</li>
+    </ul>
+  </section>
+
+  <section id="tritanomaly">
+    <h2>Tritanomaly (Blue-Weakness)</h2>
+
+    <h3>Causes</h3>
+    <p>Blue cone cells function poorly.</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Difficulty distinguishing between blue and green, and between yellow and red.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Extremely rare compared to red-green deficiencies.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Misidentification of sky and water colors.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Limited aids available.</li>
+    </ul>
+  </section>
+
+  <section id="achromatopsia">
+    <h2>Achromatopsia (Total Color Blindness)</h2>
+
+    <h3>Causes</h3>
+    <p>Complete absence or malfunction of all three types of cone cells.</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Sees only black, white, and shades of gray.</li>
+      <li>Associated light sensitivity (photophobia).</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Severe vision disability requiring adaptation to very bright or very dark environments.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Severe difficulty in bright environments.</li>
+      <li>Reduced visual acuity.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>Dark glasses or filters to reduce light sensitivity.</li>
+    </ul>
+  </section>
+
+  <section id="monochromacy">
+    <h2>Monochromacy (Seeing in One Color)</h2>
+
+    <h3>Causes</h3>
+    <p>Only one type of cone or no functioning cones are available.</p>
+
+    <h3>Symptoms</h3>
+    <ul>
+      <li>Severely limited color vision.</li>
+      <li>Can sometimes distinguish light intensity but not hue.</li>
+    </ul>
+
+    <h3>Impact on Vision</h3>
+    <p>Often mistaken for complete blindness by others due to visual behavior.</p>
+
+    <h3>Real-World Challenges</h3>
+    <ul>
+      <li>Difficulty distinguishing objects in similar brightness levels.</li>
+    </ul>
+
+    <h3>Treatments or Aids</h3>
+    <ul>
+      <li>No cure; supportive technologies may help in identifying brightness differences.</li>
+    </ul>
+  </section>
+
+  <section id="daltonized">
+    <h2>Daltonized Simulation</h2>
+
+    <h3>What is Daltonization?</h3>
+    <p>Daltonization is a visual correction technique used in digital media to simulate how images appear to individuals with color blindness. It can also help improve image visibility for colorblind users.</p>
+
+    <h3>Uses</h3>
+    <ul>
+      <li>Creating accessible websites and apps.</li>
+      <li>Testing how designs look to color-deficient users.</li>
+    </ul>
+  </section>
+
+</main>
+
 </body>
 </html>
