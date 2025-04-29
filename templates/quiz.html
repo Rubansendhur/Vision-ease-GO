@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Blindness Quiz</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Color Blindness Quiz</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/learn">Learn</a></li>
+                    <li><a href="/quiz">Quiz</a></li>
+                    <li><a href="/visualize">Visualize</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="quiz-section">
+                <h2>Test Your Knowledge</h2>
+                <form id="quizForm">
+                    <div class="question">
+                        <h3>Question 1</h3>
+                        <p>What is the most common type of color blindness?</p>
+                        <div class="options">
+                            <label>
+                                <input type="radio" name="q1" value="protanopia" required>
+                                Protanopia
+                            </label>
+                            <label>
+                                <input type="radio" name="q1" value="deuteranopia">
+                                Deuteranopia
+                            </label>
+                            <label>
+                                <input type="radio" name="q1" value="tritanopia">
+                                Tritanopia
+                            </label>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <h3>Question 2</h3>
+                        <p>Which gender is more likely to be color blind?</p>
+                        <div class="options">
+                            <label>
+                                <input type="radio" name="q2" value="male" required>
+                                Male
+                            </label>
+                            <label>
+                                <input type="radio" name="q2" value="female">
+                                Female
+                            </label>
+                            <label>
+                                <input type="radio" name="q2" value="equal">
+                                Equal chance
+                            </label>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <h3>Question 3</h3>
+                        <p>What is daltonization?</p>
+                        <div class="options">
+                            <label>
+                                <input type="radio" name="q3" value="correction" required>
+                                A method to correct color blindness
+                            </label>
+                            <label>
+                                <input type="radio" name="q3" value="simulation">
+                                A method to simulate color blindness
+                            </label>
+                            <label>
+                                <input type="radio" name="q3" value="test">
+                                A test for color blindness
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-button">Submit Answers</button>
+                </form>
+                <div id="quizResults" class="results"></div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Color Blind Simulator. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="/static/scripts.js"></script>
+</body>
+</html>
